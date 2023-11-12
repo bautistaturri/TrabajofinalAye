@@ -9,6 +9,8 @@ public class DataFrame {
     Map<String, Integer> colLabels;
     Map<String, Integer> rowLabels;
     
+    
+    // Metodos constructores
     public DataFrame() {
     	columnas = new ArrayList<>();
         colLabels = new HashMap<>();
@@ -53,6 +55,31 @@ public class DataFrame {
         setEtiquetasFilas(etiquetasFilas);
     }
 
+    
+    //Metodos Getter
+    
+    public Object getCelda(String fila, String columna) {
+        return columnas.get(colLabels.get(columna)).get(rowLabels.get(fila));
+    }
+    
+    public int cantDeFilas() {
+        return rowLabels.size();
+    }
+
+    public int cantDeColumnas() {
+        return colLabels.size();
+    }
+    
+    public Object getElemento(int fila, int columna) {
+        if (fila >= 0 && fila < columnas.get(0).size() && columna >= 0 && columna < columnas.size()) {
+            return columnas.get(columna).get(fila);
+        } else {
+            return null;
+        }
+    }
+
+    
+    //Metodos Setter
     public void setEtiquetasFilas(String[] etiquetas) {
         rowLabels.clear();
         for (int i = 0; i < columnas.get(0).size(); i++) {
@@ -66,9 +93,35 @@ public class DataFrame {
             colLabels.put(etiquetas[j], j);
         }
     }
+    
+    
+    public void setCelda(int fila, int columna, Object valor) {
+        columnas.get(columna).set(fila, valor);
+    }
 
-    // MODIFICO inicializarDesdeMatriz PARA VER SI LOGRO SOLUCIONAR LA MALA
-    // VINCULACION ENCABEZADO-COLUMNA
+
+    //Metodos funcionales de dataframe
+    
+    
+    
+    
+    public static DataFrame crearDataFrame(String[] etiquetasColumnas, ArrayList<ArrayList<Object>> datos) {
+        int CantDeFilas = datos.size();
+        int CantDeColumnas = etiquetasColumnas.length;
+
+        Object[][] array2D = new Object[CantDeFilas][CantDeColumnas];
+        for (int i = 0; i < CantDeFilas; i++) {
+            List<Object> fila = datos.get(i);
+            for (int j = 0; j < fila.size(); j++) {
+                array2D[i][j] = fila.get(j);
+            }
+        }
+
+        DataFrame retorno = new DataFrame(array2D, etiquetasColumnas);
+        return retorno;
+    }
+    
+    
 
     private void inicializarDesdeMatriz(Object[][] matriz) {
         for (int j = 0; j < columnas.size(); j++) {
@@ -85,31 +138,12 @@ public class DataFrame {
         return new DataFrame(matriz);
     }
 
-    public Object getCelda(String fila, String columna) {
-        return columnas.get(colLabels.get(columna)).get(rowLabels.get(fila));
-    }
 
-    public void setCelda(int fila, int columna, Object valor) {
-        columnas.get(columna).set(fila, valor);
-    }
-
-
-
-    public int cantDeFilas() {
-        return rowLabels.size();
-    }
-
-    public int cantDeColumnas() {
-        return colLabels.size();
-    }
-
-    public String etiquetaDeFilas() {
-        String etiquetas_filas = "";
+    public List<String> etiquetaDeFilas() {
+        List<String> etiquetas_filas = new ArrayList<>();
         for (String elemento : rowLabels.keySet()) {
-            etiquetas_filas += (elemento + ", ");
+            etiquetas_filas.add(elemento);
         }
-        if (etiquetas_filas.length() > 1)
-            etiquetas_filas = etiquetas_filas.substring(0, etiquetas_filas.length() - 2);
         return etiquetas_filas;
     }
 
@@ -162,14 +196,7 @@ public class DataFrame {
         return tiposDeDatosColumnas;
     }
 
-    public Object getElemento(int fila, int columna) {
-        if (fila >= 0 && fila < columnas.get(0).size() && columna >= 0 && columna < columnas.size()) {
-            return columnas.get(columna).get(fila);
-        } else {
-            return null;
-        }
-    }
-
+   
     public static final Object NA = "NA";
 
     // Modificar para que en vez de devolverme la lista de filas, me devuelva una
@@ -210,4 +237,9 @@ public class DataFrame {
 
         return filas;
     }
+    
+    
+    
+    
+    
 }
