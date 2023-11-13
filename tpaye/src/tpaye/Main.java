@@ -7,22 +7,23 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         try {
-            // Inicializar la matriz con valores predeterminados
             DataFrame miMatriz = new DataFrame();
-
-            // Leer el archivo CSV y crear una matriz a partir de él
-            miMatriz = CSVparser.leerCSV("C://Users//M//Desktop//ParaTP.csv");
-
-            // Imprimir la matriz
-            System.out.println(miMatriz);
-
+            
+            miMatriz = CSVparser.leerCSV("C:\\Users\\M\\Downloads\\hola.csv");
+            VisualizadorDatos visualizador = new VisualizadorDatos(miMatriz);
+            
+            System.out.println("Bienvenido");
+            
+            visualizador.visualizarDatos();
+            System.out.println(); //salto de linea
+            
             int CantDeFilas = miMatriz.cantDeFilas();
             int CantDeColumnas = miMatriz.cantDeColumnas();
 
             //%%%%%%%%%%%%%% PRUEBO LA FUNCIONALIDAD VisualizarDATOS %%%%%%%%%%%%%%    
-            // Crear una instancia de VisualizarDatos y mostrar los datos
-            VisualizadorDatos visualizador = new VisualizadorDatos(miMatriz);
-            visualizador.visualizarDatos();
+  
+            
+            
 
             // Uso la clase Fila:
             int filaDeseada = 0;  // El índice de la tercera fila (los índices comienzan en 0 SIN CONTAR LOS ENCABEZADOS)
@@ -46,6 +47,28 @@ public class Main {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*
     System.out.println("El nro. de filas es: " + CantDeFilas);
     System.out.println("Las etiquetas de las columnas son: " + miMatriz.etiquetaDeColumnas());
